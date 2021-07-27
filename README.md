@@ -1,1 +1,1 @@
-# tdd-go-app
+# tdd-go
