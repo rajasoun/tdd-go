@@ -4,6 +4,8 @@
 ARG VARIANT="1.16"
 FROM mcr.microsoft.com/vscode/devcontainers/go:0-${VARIANT} as base
 
+COPY packages/*.* /tmp/packages-tmp/
+
 # Install Node.js
 FROM base as node-builder
 ARG INSTALL_NODE="true"
@@ -21,6 +23,7 @@ RUN set -x \
     && apt-get -y install --no-install-recommends bash bash-completion \
        vim git netcat jq curl git-flow wget g++ zsh-autosuggestions \
        zsh-syntax-highlighting binutils libcurl4 zlib1g libdw1 shellcheck\
+       python3-pip python3-setuptools \
     && apt-get autoremove -y  \
     && apt-get clean -y \
     && rm -r /var/cache/* /var/lib/apt/lists/*
@@ -34,7 +37,7 @@ RUN set -x \
     && go get -v github.com/josharian/impl 2>&1 \
     && go get -v honnef.co/go/tools/cmd/staticcheck 2>&1 \
     && go get -v gotest.tools/gotestsum 2>&1 \
-    && rm -rf $GOPATH/pkg/* $GOPATH/src/* $HOME/.cache/go-build 
+    && rm -rf $GOPATH/pkg/* $GOPATH/src/* $HOME/.cache/go-build
 
 # Install global node packages.
 FROM go-builder as toolz-builder
@@ -52,6 +55,10 @@ ENV GH_CLI=https://github.com/cli/cli/releases/download/v${GH_VER}/gh_${GH_VER}_
 RUN set -ex \
     && wget -q $GH_CLI -O - | tar xz -C ./ --strip-components 1
 
+#Python Packages
+RUN set -ex \
+    && pip3 --disable-pip-version-check --no-cache-dir install -r /tmp/packages-tmp/requirements.txt
+
 # shellspec, kcov and gh
 FROM shellspec/shellspec-debian:kcov as shellspec-kov
 
@@ -64,9 +71,5 @@ COPY --from=shellspec-kov   /usr/local/share/doc/kcov   /usr/local/share/doc/kco
 # goss - Quick and Easy server validation
 RUN set -ex \
     && curl -fsSL https://goss.rocks/install | sh
-    
+
 ENV PATH="/opt/shellspec:/tools:$PATH"
-
-
-
-

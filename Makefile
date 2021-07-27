@@ -21,16 +21,16 @@ bin/$(APP): bin
 	go build -v -o $@ -ldflags "-X main.Version='${VERSION}'"
 
 bin: clean
-	mkdir -p bin 
+	mkdir -p bin
 
 tdd:  ## TDD Go
 	gotestsum --format testname
 
 test:  ## Test Go
-	go test ./... 
+	go test ./...
 
 clean: ## Clean Go
-	rm -rf bin 
+	rm -rf bin
 
 cover: ## Go Coverage
 	go test ./... --cover -coverprofile cp.out
@@ -38,7 +38,3 @@ cover: ## Go Coverage
 
 lint: ## Go Coverage
 	golangci-lint run --enable-all
-
-
-
-
