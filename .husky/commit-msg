@@ -6,5 +6,6 @@
 printf "\n3. Lint Commit Message: (commitlint-msg)"
 commitlint --config conventions/.commitlintrc.yml --edit "$HUSKY_GIT_PARAMS"
 
+# shellcheck disable=SC2154
 cd "$current_working_dir" || return
 printf "\n Done"

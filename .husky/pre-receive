@@ -7,6 +7,7 @@
 printf "\nPre Receive Steps: (pre-receive) : Git Guardian secrets detection"
 
 # load .env
+# shellcheck disable=SC2002
 export "$(cat .env | xargs)"
 
 # Commit sha with all zeros

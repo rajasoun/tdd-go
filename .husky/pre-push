@@ -7,6 +7,6 @@
 printf "\nPre Push Steps: (pre-push) : Test Suite"
 
 # load .env
+# shellcheck disable=SC2002
 export "$(cat .env | xargs)"
-printf "\n(pre-push) LWC - Threat Index : Unit Test"
 make cover
