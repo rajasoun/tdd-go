@@ -24,7 +24,7 @@ bin: clean
 	mkdir -p bin
 
 tdd:  ## TDD Go
-	gotestsum --format testname
+	gotestsum --watch --format testname
 
 test:  ## Test Go
 	go test ./...
@@ -32,9 +32,12 @@ test:  ## Test Go
 clean: ## Clean Go
 	rm -rf bin
 
+summary: ##  Prints formatted test output, and a summary of the test run
+	gotestsum --format testname -- -coverprofile=coverage.out ./...
+
 cover: ## Go Coverage
-	go test ./... --cover -coverprofile cp.out
-	go tool cover -html=cp.out
+	go test ./... --cover -coverprofile coverage.out
+	go tool cover -html=coverage.out
 
 lint: ## Go Coverage
 	golangci-lint run --enable-all
