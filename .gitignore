@@ -97,3 +97,5 @@ vscode-iaac/go
 bin
 ssh-keys/*
 !ssh-keys/.gitkeep
+.env.bak
+token.txt
