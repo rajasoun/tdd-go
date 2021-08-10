@@ -84,13 +84,28 @@ function _check_gg_api() {
 
 function _populate_dot_env() {
 	prompt "Populating .env File"
-	_file_exists ".env" && mv .env .env.bak
+	if [ -f "$(git rev-parse --show-toplevel)/.env" ]; then
+		mv .env .env.bak
+	fi
 	cp .env.sample .env
 	prompt "${BLUE}To Get the GG Key - Register to Git Guardian ${NC}"
+	prompt "${YELLOW} Visit $(dotenv get GITGUARDIAN_URL) ${NC}"
 	prompt "${BOLD}Enter Git Guardian API Key: ${NC}"
 	read -r GG_KEY
-	_file_replace_text "__________FILL_ME__________" "$GG_KEY" "$(git rev-parse --show-toplevel)/.env"
+	_file_replace_text "1__________FILL_ME__________1" "$GG_KEY" "$(git rev-parse --show-toplevel)/.env"
 	_check_gg_api
+
+	prompt "${BLUE}To Get the GitHub Key  ${NC}"
+	prompt "${YELLOW} Visit https://www.$(dotenv get GITHUB_URL)/settings/tokens ${NC}"
+	prompt "${BOLD}Enter Git Token: ${NC}"
+	read -r GITTOKEN
+	_file_replace_text "2__________FILL_ME__________2" "$GITTOKEN" "$(git rev-parse --show-toplevel)/.env"
+
+	prompt "${BLUE}To Get the Sentry DSN  ${NC}"
+	prompt "${YELLOW} Visit $(dotenv get SENTRY_URL) ${NC}"
+	prompt "${BOLD}Enter Sentry DSN: ${NC}"
+	read -r SENTRYDSN
+	_file_replace_text "3__________FILL_ME__________3" "$SENTRYDSN" "$(git rev-parse --show-toplevel)/.env"
 }
 
 function gsetup() {
