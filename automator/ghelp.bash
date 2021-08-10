@@ -71,7 +71,7 @@ function _install_git_hooks() {
 	pre-commit uninstall --hook-type commit-msg
 	pre-commit install --hook-type commit-msg
 	pre-commit install-hooks
-	npm install --prefix ./shift-left-security
+	npm --prefix ./shift-left install
 }
 
 function _check_gg_api() {
@@ -84,6 +84,7 @@ function _check_gg_api() {
 
 function _populate_dot_env() {
 	prompt "Populating .env File"
+	_file_exists ".env" && mv .env .env.bak
 	cp .env.sample .env
 	prompt "${BLUE}To Get the GG Key - Register to Git Guardian ${NC}"
 	prompt "${BOLD}Enter Git Guardian API Key: ${NC}"
@@ -104,7 +105,6 @@ function gsetup() {
 			_install_git_hooks || prompt "_install_git_hooks ❌"
 			_populate_dot_env || prompt "_populate_dot_env ❌"
 			_init_git_flow || prompt "_init_git_flow ❌ [Proceeding...]"
-			npm --prefix ./force-app/main/default/lwc/tdd install || prompt "Jest TDD ❌"
 			end=$(date +%s)
 			runtime=$((end - start))
 			prompt "gsetup DONE in $(_display_time $runtime)"
