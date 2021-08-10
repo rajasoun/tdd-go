@@ -27,7 +27,7 @@ clean: ## Clean Go
 	rm -rf bin
 
 lint: ## Go Lint
-	golangci-lint run --enable-all
+	golangci-lint run
 
 shiftleft: ## Adopt Shift Left
 	npm --prefix shift-left install

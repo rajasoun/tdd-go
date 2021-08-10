@@ -1,13 +1,16 @@
+// Licensed under the Creative Commons License.
+
 package main
 
 import (
-	"os"
+	"log"
 
-	"github.com/rajasoun/tdd-go/cmd"
+	"github.com/rajasoun/tdd-go/configurator"
 )
 
 func main() {
-	//Set Output to Standard Output
-	cmd.NewRootCmd().SetOut(os.Stdout)
-	cmd.Execute()
+	err := configurator.LoadDotEnv()
+	if err != nil {
+		log.Fatalln("Error Loading .env File")
+	}
 }
