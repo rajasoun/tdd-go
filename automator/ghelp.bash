@@ -184,7 +184,7 @@ function git_hub_login() {
 		if [ ! -f "token.txt" ]; then
 			echo "$GT" >automator/token.txt
 		fi
-		gh auth login --hostname "$(dotenv get GITHUB_URL)" --with-token automator/token.txt
+		gh auth login --hostname "$(dotenv get GITHUB_URL)" --with-token <automator/token.txt
 		EXIT_CODE="$?"
 		log_sentry "$EXIT_CODE" "Github Login via Token"
 		;;
@@ -213,7 +213,8 @@ alias pretty="npx prettier --config shift-left/.prettierrc.yml --write ."
 alias git-ssh-check='ssh -T git@$(dotenv get GITHUB_URL)'
 alias init-debug='init_debug'
 
-git-ssh-fix
+#git-ssh-fix
+glogin token
 init-debug
 EXIT_CODE="$?"
 log_sentry "$EXIT_CODE" "DevContainer Initialization"
