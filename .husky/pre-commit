@@ -11,7 +11,7 @@ FILES=$(git diff --cached --name-only --diff-filter=ACMR "*.js" "*.*" | sed 's| 
 
 # Prettify all selected files
 printf "\n1.1. Prettier Files Global Configuration: (pre-commit)"
-echo "$FILES" | xargs npm run --prefix conventions lint-staged
+echo "$FILES" | xargs npm run --prefix shift-left lint-staged
 
 # pre-commit checks
 if command_exists pre-commit && test -t 1; then

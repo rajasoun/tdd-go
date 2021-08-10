@@ -10,7 +10,7 @@ printf "\n2. Prepare Commit Message: (pre-commit-msg)"
 
 current_working_dir=$(pwd -P)
 export current_working_dir
-cd conventions || exit
+cd shift-left || exit
 # Reference: https://github.com/commitizen/cz-cli#traditional-git-hooks
 # shellcheck disable=SC2015
 exec </dev/tty && npx cz --hook || true

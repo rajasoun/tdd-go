@@ -6,4 +6,4 @@
 
 printf "\nPre Push Steps: (pre-push) : Test Suite"
 
-make cover
+make test-cover

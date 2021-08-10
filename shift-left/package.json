@@ -1,7 +1,7 @@
 {
-    "name": "conventions",
+    "name": "shift-left",
     "version": "0.0.1",
-    "description": "Code Conventions",
+    "description": "Sift Left Adoption",
     "author": "Raja. S",
     "license": "ISC",
     "private": true,
@@ -14,7 +14,7 @@
         "release": "release-it"
     },
     "engines": {
-        "node": ">= 14.17.3",
+        "node": ">= 14.17.4",
         "npm": ">= 7.19.1"
     },
     "devDependencies": {
@@ -23,19 +23,19 @@
         "auto-changelog": "^2.3.0",
         "commitizen": "^4.2.4",
         "cz-conventional-changelog": "^3.3.0",
-        "eslint": "^7.30.0",
+        "eslint": "^7.32.0",
         "eslint-config-prettier": "^8.3.0",
-        "eslint-plugin-import": "^2.23.4",
+        "eslint-plugin-import": "^2.24.0",
         "eslint-plugin-prettier": "^3.4.0",
-        "lint-staged": "^11.0.0",
+        "lint-staged": "^11.1.2",
         "pinst": "^2.1.6",
         "prettier": "2.3.2",
-        "release-it": "^14.10.0",
+        "release-it": "^14.11.3",
         "semver": "^7.3.5"
     },
     "config": {
         "commitizen": {
-            "path": "./conventions/node_modules/cz-conventional-changelog"
+            "path": "./shift-left/node_modules/cz-conventional-changelog"
         }
     }
 }
