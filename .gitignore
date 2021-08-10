@@ -95,3 +95,5 @@ vscode-iaac/go
 .build-go
 .cache_ggshield
 bin
+ssh-keys/*
+!ssh-keys/.gitkeep
