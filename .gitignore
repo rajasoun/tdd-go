@@ -94,4 +94,3 @@ $RECYCLE.BIN/
 vscode-iaac/go
 .build-go
 .cache_ggshield
-coverage.out

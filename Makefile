@@ -23,21 +23,24 @@ bin/$(APP): bin
 bin: clean
 	mkdir -p bin
 
-tdd:  ## TDD Go
-	gotestsum --watch --format testname
+clean: ## Clean Go
+	rm -rf bin
+
+lint: ## Go Lint
+	golangci-lint run --enable-all
 
 test:  ## Test Go
 	go test ./...
 
-clean: ## Clean Go
-	rm -rf bin
+test-iaac: ## End to End Test for the Dev Container
+	goss -g .devcontainer/go-goss.yaml validate --format tap
 
-summary: ##  Prints formatted test output, and a summary of the test run
-	gotestsum --format testname -- -coverprofile=coverage.out ./...
+test-watch:  ## Test Watch
+	gotestsum --watch --format testname
 
-cover: ## Go Coverage
-	go test ./... --cover -coverprofile coverage.out
-	go tool cover -html=coverage.out
+test-cover: ## Go Coverage
+	go test ./... --cover -coverprofile coverage/coverage.out
+	go tool cover -html=coverage/coverage.out
 
-lint: ## Go Coverage
-	golangci-lint run --enable-all
+test-summary: ## Prints formatted test output, and a summary of the test run
+	gotestsum --format testname -- -coverprofile=coverage/coverage.out ./...
