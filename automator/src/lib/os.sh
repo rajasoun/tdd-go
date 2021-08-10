@@ -10,7 +10,7 @@ ORANGE=$'\x1B[33m'
 
 GIT_CONFIG_FILE="$HOME/.gitconfig"
 KEYS_PATH="ssh-keys"
-PRIVATE_KEY="$KEYS_PATH/id_rsa_cisco_github"
+PRIVATE_KEY="$KEYS_PATH/id_rsa_github"
 PUBLIC_KEY="${PRIVATE_KEY}.pub"
 
 # Create Directory if the given directory does not exists
@@ -211,15 +211,18 @@ function _backup_remove_git_config() {
 function _git_config() {
   _backup_remove_git_config
   if [[ "$USER" == "vscode" ]]; then
-    echo "Executing Inside Dev Container. Getting Cisco User"
-    MSG="${GREEN} Cisco CEC User ${NC}${ORANGE}(without eMail) : ${NC}"
+    echo "Executing Inside Dev Container. Getting User"
+    MSG="${GREEN} User ${NC}${ORANGE}(without eMail) : ${NC}"
     # read -r -p "$MSG" USER_NAME
     read -r "USER_NAME?$MSG"
+    MSG="${GREEN} EMail ${NC}${ORANGE} : ${NC}"
+    # read -r -p "$MSG" USER_NAME
+    read -r "EMAIL?$MSG"
   fi
   if [ -n "$USER_NAME" ]; then
     echo "Configuring Git"
     git config --global user.name "${USER_NAME}"
-    git config --global user.email "${USER_NAME}@cisco.com"
+    git config --global user.email "${EMAIL}"
     git config --global core.editor "code"
   fi
   # debug "$(cat "$GIT_CONFIG_FILE")"
@@ -235,17 +238,18 @@ function _generate_ssh_keys() {
   echo "Generating SSH Keys for $USER_NAME"
   _is_command_found ssh-keygen
   debug "Generating SSH Keys for $USER_NAME"
-  ssh-keygen -q -t rsa -N '' -f "$PRIVATE_KEY" -C "$USER_NAME@cisco.com" <<<y 2>&1 >/dev/null
+  ssh-keygen -q -t rsa -N '' -f "$PRIVATE_KEY" -C "$EMAIL" <<<y 2>&1 >/dev/null
 
   echo "Set File Permissions"
   # Fix Permission For Private Key
   chmod 400 "$PUBLIC_KEY"
   chmod 400 "$PRIVATE_KEY"
   debug "SSH Keys Generated Successfully"
-  debug "SSH Key Scan for Cisco GitHub Successfull"
+  debug "SSH Key Scan for GitHub Successfull"
 }
 
 function _print_details() {
+  GIT=$(dotenv get GITHUB_URL)
   debug ""
   debug "========= PUBLIC KEY ============"
   debug "$(cat "$PUBLIC_KEY")"
@@ -253,7 +257,7 @@ function _print_details() {
 
   echo "GoTo:"
   echo ""
-  echo "https://www-github.cisco.com/settings/ssh/new"
+  echo "https://$GIT/settings/ssh/new"
   echo ""
 }
 
@@ -267,8 +271,9 @@ function _configure_ssh() {
   echo "Copying SSH Public Key to Clipboard"
   _copy_to_clipboard "$PUBLIC_KEY"
   _print_details
-  _check_connection "www-github.cisco.com" || _prompt_vpn_connection
-  _prompt_confirm "Is SSH Public Added to Cisco GitHub"
+  GIT=$(dotenv get GITHUB_URL)
+  _check_connection "$GIT" || _prompt_vpn_connection
+  _prompt_confirm "Is SSH Public Added to GitHub"
 }
 
 # ToDo: Technical Debt : Git SSH Fix : Priority P3
@@ -293,8 +298,7 @@ function git-ssh-fix() {
 
 function init_debug() {
   command -v sentry-cli >/dev/null 2>&1 || curl -sL https://sentry.io/get-cli/ | bash
-  export SENTRY_DSN="https://adab2e6c47354de085b3544b91705d80@o198209.ingest.sentry.io/5859521"
-  eval "$(sentry-cli bash-hook)"
+  # eval "$(sentry-cli bash-hook)"
 }
 
 function log_sentry() {
