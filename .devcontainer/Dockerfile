@@ -72,4 +72,19 @@ COPY --from=shellspec-kov   /usr/local/share/doc/kcov   /usr/local/share/doc/kco
 RUN set -ex \
     && curl -fsSL https://goss.rocks/install | sh
 
+# Sentry CLI
+RUN set -ex \
+    && curl -fsSL https://sentry.io/get-cli/ | bash
+
 ENV PATH="/opt/shellspec:/tools:$PATH"
+
+ARG USERNAME=vscode
+COPY dotfiles/.zshrc /home/$USERNAME/
+
+# Remove library scripts for final image
+RUN set -ex \
+    && apt-get autoremove --assume-yes \
+    && apt-get clean --assume-yes \
+    && rm -rf /var/lib/apt/lists/* \
+    && rm -rf /tmp/library-scripts \
+    && rm -rf /tmp/packages-tmp
