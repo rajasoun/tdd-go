@@ -214,7 +214,7 @@ alias git-ssh-check='ssh -T git@$(dotenv get GITHUB_URL)'
 alias init-debug='init_debug'
 
 if ! [ -f "$(git rev-parse --show-toplevel)/.env" ]; then
-	prompt "${YELLOW} Git Working Tree Not Clean. Aborting setup !!! ${NC}"
+	prompt "${YELLOW} Starting gsetup ${NC}"
 	gsetup
 fi
 glogin token #git-ssh-fix
